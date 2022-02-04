@@ -15,7 +15,7 @@ namespace cabzcommerce.cshared.DTOs.User
         [Required]
         public string PhoneNumber { get; set; }
         [Required]
-        public string[] UserType { get; set; }   
+        public List<string> UserType { get; set; }   
         public Access UserAccess{get;set;}
     }
 }

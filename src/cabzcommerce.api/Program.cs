@@ -1,12 +1,27 @@
+using cabzcommerce.api.Helpers;
+using cabzcommerce.api.Repositories;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
 BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
+// Setup DB Settings
+var settings = builder.Configuration.GetSection(nameof(DBSettings)).Get<DBSettings>();
+ // setting up the connection string
+// Inject MongoClient to app
+builder.Services.AddSingleton<IMongoClient>(serviceProvider => {                
+    return new MongoClient(settings.ConnString);
+});
+// Add configs
+builder.Services.AddSingleton(settings);
+
+// Add repos
+builder.Services.AddSingleton<IUserRepo, UserRepo>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -22,7 +37,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
