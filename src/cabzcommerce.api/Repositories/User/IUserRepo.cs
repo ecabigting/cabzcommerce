@@ -8,6 +8,7 @@ namespace cabzcommerce.api.Repositories
     {
         Task<User> Register(Registration User);
         Task<User> Login(Login User);
+        Task<User> GetUser(Guid Id);
     }
 
 }

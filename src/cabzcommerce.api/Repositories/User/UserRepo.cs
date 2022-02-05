@@ -10,6 +10,7 @@ namespace cabzcommerce.api.Repositories
     {
         private const string collectionName = "Users";
         private readonly IMongoCollection<User> usersCollection;
+        private readonly FilterDefinitionBuilder<User> filterBuilder = Builders<User>.Filter;
         public UserRepo(IMongoClient _mongoClient,DBSettings _settings)
         {
             IMongoDatabase db = _mongoClient.GetDatabase(_settings.DbName);
@@ -35,6 +36,12 @@ namespace cabzcommerce.api.Repositories
             };
             await usersCollection.InsertOneAsync(NewUser);
             return NewUser;
+        }
+    
+        public async Task<User> GetUser(Guid Id)
+        {
+            var filter = filterBuilder.Eq(i => i.Id, Id);
+            return await usersCollection.Find(filter).SingleOrDefaultAsync();
         }
     }
 }

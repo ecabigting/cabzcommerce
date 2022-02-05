@@ -2,6 +2,7 @@
 using cabzcommerce.api.Repositories;
 using cabzcommerce.cshared.DTOs;
 using cabzcommerce.cshared.DTOs.User;
+using cabzcommerce.cshared.Models;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -36,6 +37,49 @@ namespace cabzcommerce.api.Controllers
         //     }
         //     return Ok(item.AsDto());
         // }
+
+        [HttpGet("{Id}")]
+        public async Task<ActionResult<ApiResponse>> GetUserProfile(Guid Id)
+        {
+            try
+            {
+                User FoundUser = await repo.GetUser(Id);
+                if(FoundUser != null)
+                {
+                    return new ApiResponse {
+                        Data = new Profile {
+                            DateOfBirth = FoundUser.DateOfBirth,
+                            Email = FoundUser.Email,
+                            FirstName = FoundUser.FirstName,
+                            LastName=FoundUser.LastName,
+                            PhoneNumber=FoundUser.PhoneNumber,
+                            UserAccess=null,
+                            UserType=FoundUser.UserType
+                        },
+                        ErrorMessage = "",
+                        Message = "Success!",
+                        StatusCode = NotFound().StatusCode
+                    };
+                }else
+                {
+                    return new ApiResponse {
+                        Data = null,
+                        ErrorMessage = "User Not found!",
+                        StatusCode = 200,
+                        Message = "Invalid User Id!"
+                    };
+                }
+
+            }catch(Exception err)
+            {
+                return new ApiResponse {
+                    Data = null,
+                    ErrorMessage = err.Message,
+                    StatusCode = 500,
+                    Message = "Error!"
+                };
+            }
+        }
 
         [HttpPost]
         public async Task<ActionResult<ApiResponse>> Register(Registration _user)
