@@ -3,6 +3,7 @@ using cabzcommerce.api.Repositories;
 using cabzcommerce.cshared.DTOs;
 using cabzcommerce.cshared.DTOs.User;
 using cabzcommerce.cshared.Models;
+using BCryptNet = BCrypt.Net.BCrypt;
 using Microsoft.AspNetCore.Mvc;
 
 namespace cabzcommerce.api.Controllers 
@@ -80,43 +81,93 @@ namespace cabzcommerce.api.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("Register")]
         public async Task<ActionResult<ApiResponse>> Register(Registration _user)
         {
             try
             {
-                return new ApiResponse {
-                    Data = await repo.Register(_user),
-                    ErrorMessage = "",
-                    StatusCode = 200,
-                    Message = "Registration Successful!"
-                };
+                if(repo.GetUserByEmail(_user.Email)==null)
+                {
+                    return Ok(new ApiResponse {
+                        Data = await repo.Register(_user),
+                        ErrorMessage = "",
+                        StatusCode = Ok().StatusCode,
+                        Message = "Registration Successful!"
+                    });
+                }else
+                {
+                    return BadRequest(new ApiResponse {
+                        Data = null,
+                        ErrorMessage = "Email Already exist!",
+                        StatusCode = BadRequest().StatusCode,
+                        Message = "Error!"
+                    });
+                }
 
             }catch(Exception err)
             {
-                return new ApiResponse {
+                return BadRequest(new ApiResponse {
                     Data = null,
                     ErrorMessage = err.Message,
-                    StatusCode = 500,
+                    StatusCode = BadRequest().StatusCode,
                     Message = "Error!"
-                };
+                });
             }
         }
 
-        // [HttpPost]
-        // public async Task<ActionResult<ItemDto>> CreateItemAsync(CreateItemDto itemDto)
-        // {
-        //     Item item = new(){
-        //         Id = Guid.NewGuid(),
-        //         Name = itemDto.Name,
-        //         Price = itemDto.Price,
-        //         CreatedDate = DateTimeOffset.UtcNow
-        //     };
-        //     await repo.CreateItemAsync(item);
+        [HttpPost("Login")]
+        public async Task<ActionResult<ApiResponse>> Login(Login _user)
+        {
+            try
+            {
+                User FoundUserByEmail = await repo.GetUserByEmail(_user.Username);
+                if(FoundUserByEmail != null)
+                {
+                    if(BCryptNet.Verify(_user.Password,FoundUserByEmail.Password))
+                    {
+                        return new ApiResponse {
+                            Data = new Profile {
+                                DateOfBirth = FoundUserByEmail.DateOfBirth,
+                                Email = FoundUserByEmail.Email,
+                                FirstName = FoundUserByEmail.FirstName,
+                                LastName=FoundUserByEmail.LastName,
+                                PhoneNumber=FoundUserByEmail.PhoneNumber,
+                                UserAccess=null,
+                                UserType=FoundUserByEmail.UserType
+                            },
+                            ErrorMessage = "",
+                            Message = "Success!",
+                            StatusCode = NotFound().StatusCode
+                        };
+                    }else
+                    {
+                        return BadRequest(new ApiResponse {
+                            Data = null,
+                            ErrorMessage = "Invali Username/Password",
+                            StatusCode = BadRequest().StatusCode,
+                            Message = "Error!"
+                        });
+                    }
+                }else
+                {
+                    return BadRequest(new ApiResponse {
+                        Data = null,
+                        ErrorMessage = "Invali Username/Password",
+                        StatusCode = BadRequest().StatusCode,
+                        Message = "Login error!"
+                    });
+                }
 
-        //     // created at action get the action of GetItem, return anon object with new item id, return the dto
-        //     return CreatedAtAction(nameof(GetItemAsync),new {id = item.Id}, item.AsDto());
-        // }
+            }catch(Exception err)
+            {
+                return BadRequest(new ApiResponse {
+                    Data = null,
+                    ErrorMessage = err.Message,
+                    StatusCode = BadRequest().StatusCode,
+                    Message = "Error!"
+                });
+            }
+        }
 
         // [HttpPut("{id}")]
         // public async Task<ActionResult> UpdateItemAsync(Guid id, UpdateItemDto itemDto)

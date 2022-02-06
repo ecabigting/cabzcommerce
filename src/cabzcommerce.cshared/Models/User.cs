@@ -18,5 +18,7 @@ namespace cabzcommerce.cshared.Models
         public List<string> UserType { get; set; }   
         [Required]
         public string ImgUrl {get;set;}
+        [Required]
+        public string Password {get;set;}
     }
 }
