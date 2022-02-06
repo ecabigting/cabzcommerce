@@ -5,7 +5,6 @@ using cabzcommerce.cshared.DTOs.User;
 using cabzcommerce.cshared.Models;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace cabzcommerce.api.Controllers 
 {
     [ApiController]
@@ -38,7 +37,7 @@ namespace cabzcommerce.api.Controllers
         //     return Ok(item.AsDto());
         // }
 
-        [HttpGet("{Id}")]
+        [HttpGet("GetUserProfile/{Id}")]
         public async Task<ActionResult<ApiResponse>> GetUserProfile(Guid Id)
         {
             try
