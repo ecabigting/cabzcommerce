@@ -7,7 +7,7 @@ namespace cabzcommerce.api.Repositories
     public interface IUserRepo
     {
         Task<Profile> Register(Registration User);
-        Task<User> Login(Login User);
+        Task<UserAccessToken> GrantUserAccess(User User);
         Task<User> GetUser(Guid Id);
         Task<User> GetUserByEmail(string Email);
     }

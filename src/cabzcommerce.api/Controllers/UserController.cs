@@ -5,6 +5,9 @@ using cabzcommerce.cshared.DTOs.User;
 using cabzcommerce.cshared.Models;
 using BCryptNet = BCrypt.Net.BCrypt;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Net;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace cabzcommerce.api.Controllers 
 {
@@ -125,6 +128,7 @@ namespace cabzcommerce.api.Controllers
                 {
                     if(BCryptNet.Verify(_user.Password,FoundUserByEmail.Password))
                     {
+                        UserAccessToken UAToken = await repo.GrantUserAccess(FoundUserByEmail);
                         return new ApiResponse {
                             Data = new Profile {
                                 DateOfBirth = FoundUserByEmail.DateOfBirth,
@@ -132,12 +136,17 @@ namespace cabzcommerce.api.Controllers
                                 FirstName = FoundUserByEmail.FirstName,
                                 LastName=FoundUserByEmail.LastName,
                                 PhoneNumber=FoundUserByEmail.PhoneNumber,
-                                UserAccess=null,
+                                UserAccess= new Access {
+                                    RefreshToken = UAToken.RefreshToken,
+                                    RefreshTokenExp = UAToken.RefreshTokenExp,
+                                    Token = UAToken.Token,
+                                    TokenExp = UAToken.TokenExp
+                                },
                                 UserType=FoundUserByEmail.UserType
                             },
                             ErrorMessage = "",
                             Message = "Success!",
-                            StatusCode = NotFound().StatusCode
+                            StatusCode = Ok().StatusCode
                         };
                     }else
                     {
@@ -168,41 +177,12 @@ namespace cabzcommerce.api.Controllers
                 });
             }
         }
-
-        // [HttpPut("{id}")]
-        // public async Task<ActionResult> UpdateItemAsync(Guid id, UpdateItemDto itemDto)
-        // {
-        //     var existingItem = await repo.GetItemAsync(id);
-        //     if(existingItem is null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     // using the 'with' expression from the record type
-        //     // it means we are taking a copy of the existing item
-        //     // and setting the new value for name and price
-        //     // this is required since record is an immutable type
-        //     Item updatedItem = existingItem with {
-        //         Name = itemDto.Name,
-        //         Price = itemDto.Price
-        //     };
-
-        //     await repo.UpdateItemAsync(updatedItem);
-
-        //     return NoContent();
-
-        // }
-
-        // [HttpDelete("{id}")]
-        // public async Task<ActionResult> DeleteItemAsync(Guid id)
-        // {
-        //     var existingItem = await repo.GetItemAsync(id);
-        //     if(existingItem is null)
-        //     {
-        //         return NotFound();
-        //     }
-        //     await repo.DeleteItemAsync(id);
-        //     return NoContent();
-        // }
+    
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("CheckToken")]
+        public ActionResult CheckToken()
+        {
+            return Ok("Authenticated!");
+        }
     }
 }
