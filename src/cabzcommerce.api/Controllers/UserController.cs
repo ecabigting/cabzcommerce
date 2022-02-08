@@ -89,7 +89,8 @@ namespace cabzcommerce.api.Controllers
         {
             try
             {
-                if(repo.GetUserByEmail(_user.Email)==null)
+                User FoundUserByEmail = await repo.GetUserByEmail(_user.Email);
+                if(FoundUserByEmail == null)
                 {
                     return Ok(new ApiResponse {
                         Data = await repo.Register(_user),
@@ -183,6 +184,67 @@ namespace cabzcommerce.api.Controllers
         public ActionResult CheckToken()
         {
             return Ok("Authenticated!");
+        }
+
+        [HttpGet("RefreshToken/{RefToken}")]
+        public async Task<ActionResult<ApiResponse>> RefreshToken([FromHeader]string Authorization,Guid RefToken)
+        {
+            //
+            // Check if the There is a Bearer Token
+            if(String.IsNullOrEmpty(Authorization == null ? "" : Authorization.Split(' ').Length > 1 ? Authorization.Split(' ')[1] : "" ))
+            {
+                return BadRequest(new ApiResponse{
+                    Data = null,
+                    ErrorMessage = "Invalid Bearer Token!",
+                    Message = "Failed to get new Token!",
+                    StatusCode = BadRequest().StatusCode
+                });
+            }
+
+            string userToken = Authorization.Split(' ')[1];
+
+            //
+            // Check if the Bearer token exist even if it is expired
+            if(await repo.GetUserAccessByCurrentToken(userToken)==null)
+            {
+                return BadRequest(new ApiResponse{
+                    Data = null,
+                    ErrorMessage = "Invalid Bearer Token!",
+                    Message = "Failed to get new Token!",
+                    StatusCode = BadRequest().StatusCode
+                });
+            }
+
+            //
+            // try to get a new Token with a valid refresh token
+            UserAccessToken NewUAT = await repo.RefreshToken(RefToken,userToken);
+            if(NewUAT == null)
+            {
+                return Unauthorized(new ApiResponse{
+                    Data = null,
+                    ErrorMessage = "Refresh Token Expired! Please login!",
+                    Message = "Failed to get new Token!",
+                    StatusCode = Unauthorized().StatusCode
+                });
+            }else
+            {
+                string successMsg = "";
+                if(RefToken == NewUAT.RefreshToken)
+                    successMsg = "Old Token is not yet expired! Please generated a new one when it expires!";
+                else 
+                    successMsg = "Getting new token success!";
+                return Ok(new ApiResponse{
+                    Data = new Access {
+                        RefreshToken = NewUAT.RefreshToken,
+                        RefreshTokenExp = NewUAT.RefreshTokenExp,
+                        Token = NewUAT.Token,
+                        TokenExp = NewUAT.TokenExp
+                    },
+                    ErrorMessage = "",
+                    Message = successMsg,
+                    StatusCode = Ok().StatusCode
+                });
+            }
         }
     }
 }

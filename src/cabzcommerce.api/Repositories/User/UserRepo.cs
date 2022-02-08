@@ -104,5 +104,28 @@ namespace cabzcommerce.api.Repositories
             var filter = filterBuilder.Eq(i => i.Email, Email);
             return await usersCollection.Find(filter).SingleOrDefaultAsync();
         }
+
+        public async Task<UserAccessToken> RefreshToken(Guid RefToken, string UserToken)
+        {
+            var filterUAT = filterBuilderUAT.Where(uat => uat.Token == UserToken && 
+            uat.RefreshToken == RefToken && 
+            uat.RefreshTokenExp > DateTimeOffset.Now);
+            UserAccessToken userToken = await userAccessToken.Find(filterUAT).SingleOrDefaultAsync();
+            if(userToken!=null)
+            {
+                User GrantAccessTokenToThisUser = await GetUser(userToken.UserId);
+                return await GrantUserAccess(GrantAccessTokenToThisUser);
+                
+            }else
+            {
+                return null;
+            }
+        }
+
+        public async Task<UserAccessToken> GetUserAccessByCurrentToken(string UserToken)
+        {
+            var filterUAT = filterBuilderUAT.Eq(uat => uat.Token,UserToken);
+            return await userAccessToken.Find(filterUAT).SingleOrDefaultAsync();
+        }
     }
 }

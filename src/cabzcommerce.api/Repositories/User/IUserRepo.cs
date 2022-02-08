@@ -10,6 +10,8 @@ namespace cabzcommerce.api.Repositories
         Task<UserAccessToken> GrantUserAccess(User User);
         Task<User> GetUser(Guid Id);
         Task<User> GetUserByEmail(string Email);
+        Task<UserAccessToken> RefreshToken(Guid RefToken,string UserToken);
+        Task<UserAccessToken> GetUserAccessByCurrentToken(string UserToken);
     }
 
 }
