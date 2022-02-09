@@ -6,14 +6,13 @@ using cabzcommerce.cshared.Models;
 using BCryptNet = BCrypt.Net.BCrypt;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace cabzcommerce.api.Controllers 
 {
     [ApiController]
     [Route("[controller]")]
-    public class UserController : ControllerBase 
+    public class UserController : ApiBaseController 
     {
         private readonly IUserRepo repo;
         
@@ -190,16 +189,8 @@ namespace cabzcommerce.api.Controllers
         public async Task<ActionResult<ApiResponse>> RefreshToken([FromHeader]string Authorization,Guid RefToken)
         {
             //
-            // Check if the There is a Bearer Token
-            if(String.IsNullOrEmpty(Authorization == null ? "" : Authorization.Split(' ').Length > 1 ? Authorization.Split(' ')[1] : "" ))
-            {
-                return BadRequest(new ApiResponse{
-                    Data = null,
-                    ErrorMessage = "Invalid Bearer Token!",
-                    Message = "Failed to get new Token!",
-                    StatusCode = BadRequest().StatusCode
-                });
-            }
+            // Check if there is a Bearer Token
+            if(BearerTokenExist(Authorization)) ReturnInvalidBearerTokenResponse();
 
             string userToken = Authorization.Split(' ')[1];
 
