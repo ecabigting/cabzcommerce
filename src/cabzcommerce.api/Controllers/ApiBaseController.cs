@@ -1,4 +1,6 @@
+using cabzcommerce.api.Repositories;
 using cabzcommerce.cshared.DTOs;
+using cabzcommerce.cshared.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace cabzcommerce.api.Controllers 
@@ -21,6 +23,12 @@ namespace cabzcommerce.api.Controllers
                     StatusCode = BadRequest().StatusCode
                 });
         }
+
+        public async Task<Guid> GetTokenUserID(IUserRepo repo, string Token)
+        {
+            UserAccessToken uat = await repo.GetUserAccessByCurrentToken(Token);
+            return uat.UserId;
+        } 
         
     }
 }

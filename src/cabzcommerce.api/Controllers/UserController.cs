@@ -40,15 +40,26 @@ namespace cabzcommerce.api.Controllers
         //     return Ok(item.AsDto());
         // }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("GetUserProfile/{Id}")]
-        public async Task<ActionResult<ApiResponse>> GetUserProfile(Guid Id)
+        public async Task<ActionResult<ApiResponse>> GetUserProfile(Guid Id,[FromHeader]string Authorize)
         {
             try
             {
+                if(Id != await GetTokenUserID(repo,Authorize.Split(' ')[1]))
+                {
+                    return BadRequest(new ApiResponse {
+                        Data = null,
+                        ErrorMessage = "Invalid request!",
+                        StatusCode = BadRequest().StatusCode,
+                        Message = "Error!"
+                    });
+                }
+
                 User FoundUser = await repo.GetUser(Id);
                 if(FoundUser != null)
                 {
-                    return new ApiResponse {
+                    return Ok(new ApiResponse {
                         Data = new Profile {
                             DateOfBirth = FoundUser.DateOfBirth,
                             Email = FoundUser.Email,
@@ -61,25 +72,25 @@ namespace cabzcommerce.api.Controllers
                         ErrorMessage = "",
                         Message = "Success!",
                         StatusCode = NotFound().StatusCode
-                    };
+                    });
                 }else
                 {
-                    return new ApiResponse {
+                    return NotFound(new ApiResponse {
                         Data = null,
                         ErrorMessage = "User Not found!",
-                        StatusCode = 200,
+                        StatusCode = NotFound().StatusCode,
                         Message = "Invalid User Id!"
-                    };
+                    });
                 }
 
             }catch(Exception err)
             {
-                return new ApiResponse {
+                return BadRequest(new ApiResponse {
                     Data = null,
                     ErrorMessage = err.Message,
-                    StatusCode = 500,
+                    StatusCode = BadRequest().StatusCode,
                     Message = "Error!"
-                };
+                });
             }
         }
 
