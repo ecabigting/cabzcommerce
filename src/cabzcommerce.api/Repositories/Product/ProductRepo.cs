@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using cabzcommerce.cshared.DTOs.Product;
 
 namespace cabzcommerce.api.Repositories
 {
@@ -22,5 +23,19 @@ namespace cabzcommerce.api.Repositories
             aSettings = _apiSettings;
         }
 
+        public Task<Product> Add(ProductDto Product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Product> Update(Product Product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ProductCustomDescription> AddProductCustomDescription(ProductCustomDescription ProductDescription)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

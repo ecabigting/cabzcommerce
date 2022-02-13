@@ -17,8 +17,6 @@ namespace cabzcommerce.cshared.Models
         [Required]
         public int DiscountPercentage { get; set; }
         [Required]
-        public int MyProperty { get; set; }
-        [Required]
         public List<string> Type { get; set; }
         [Required]
         public Guid BrandID { get; set; }
@@ -31,7 +29,6 @@ namespace cabzcommerce.cshared.Models
         [Required]
         public string Barcode { get; set; }
         public string InventoryCode { get; set; }        
-        public List<ProductCustomDescription> DescriptionList {get;set;}
         public Guid ShopId { get; set; }
         
     }
@@ -39,6 +36,21 @@ namespace cabzcommerce.cshared.Models
     {
         public string DescriptionTitle { get; set; }
         public string DescriptionText { get; set; }
+        [Required]
+        public Guid ProductId { get;set; }
+    }
+
+    public class ProductAddOns : BaseClass
+    {
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public string Desc { get; set; }
+        [Required]
+        public decimal Price { get; set; }
+        public string ImgDesktopUrl { get; set; }        
+        public string ImgMobileUrl { get; set; }
+        public bool InStock { get; set; }
 
     }
 

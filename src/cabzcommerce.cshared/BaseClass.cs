@@ -11,5 +11,10 @@ namespace cabzcommerce.cshared
         public DateTimeOffset UpdatedDateTime { get; set; }
         public Guid CreatedBy { get; set; }
         public Guid UpdatedBy { get; set; }
+        [Required]
+        public bool IsEnabled {get;set;}
+        [Required]
+        public Guid IsEnabledBy { get; set; }
+
     }
 }
