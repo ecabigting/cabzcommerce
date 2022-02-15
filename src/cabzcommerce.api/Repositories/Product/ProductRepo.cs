@@ -23,7 +23,7 @@ namespace cabzcommerce.api.Repositories
             aSettings = _apiSettings;
         }
 
-        public Task<Product> Add(ProductDto Product)
+        public Task<Product> Add(ProductDto Product, Guid OwnerId)
         {
             throw new NotImplementedException();
         }
