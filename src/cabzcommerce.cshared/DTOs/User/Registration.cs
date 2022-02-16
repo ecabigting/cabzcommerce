@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using cabzcommerce.cshared.Models;
 
 namespace cabzcommerce.cshared.DTOs.User
 {
@@ -17,7 +18,7 @@ namespace cabzcommerce.cshared.DTOs.User
         [Required]
         public string Password {get;set;}
         [Required]
-        public string[] UserType { get; set; }   
+        public UserType UserType { get; set; }   
     }
 }
 

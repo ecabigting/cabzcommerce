@@ -36,7 +36,7 @@ namespace cabzcommerce.api.Repositories
                     new Claim(ClaimTypes.Email, _user.Email),
                     new Claim(ClaimTypes.GivenName, _user.FirstName),
                     new Claim(ClaimTypes.Surname,_user.LastName),
-                    new Claim(ClaimTypes.Role,_user.UserType[0].ToString()),
+                    new Claim(ClaimTypes.Role,_user.ToString()),
                 };
                 Console.WriteLine(aSettings.HashKey);
                 var token = new JwtSecurityToken
@@ -76,7 +76,7 @@ namespace cabzcommerce.api.Repositories
                 ImgUrl = "",
                 LastName = _user.LastName,
                 PhoneNumber = _user.PhoneNumber,
-                UserType = new List<string>{"User"},
+                UserType = _user.UserType,
                 CreatedDateTime = DateTimeOffset.UtcNow,
                 UpdatedDateTime = DateTimeOffset.UtcNow,
                 Password = BCryptNet.HashPassword(_user.Password),

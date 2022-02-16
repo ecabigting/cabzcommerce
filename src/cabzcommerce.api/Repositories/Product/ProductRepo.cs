@@ -1,12 +1,6 @@
 using cabzcommerce.api.Helpers;
-using BCryptNet = BCrypt.Net.BCrypt;
-using cabzcommerce.cshared.DTOs.User;
 using cabzcommerce.cshared.Models;
 using MongoDB.Driver;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using cabzcommerce.cshared.DTOs.Product;
 
 namespace cabzcommerce.api.Repositories
