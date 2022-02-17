@@ -1,5 +1,7 @@
 using cabzcommerce.api.Helpers;
+using cabzcommerce.cshared.DTOs.Product;
 using cabzcommerce.cshared.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace cabzcommerce.api.Repositories
@@ -14,25 +16,46 @@ namespace cabzcommerce.api.Repositories
             brandsCollection = db.GetCollection<Brand>("Brands");
         }
 
-        public Task<Brand> Add(Brand brand)
+        public async Task<Brand> Add(Brand brand)
         {
-            throw new NotImplementedException();
+            await brandsCollection.InsertOneAsync(brand);
+            return brand;
         }
 
-        public Task<Brand> Update(Brand brand)
+        public async Task<Brand> Update(Brand brand)
         {
-            throw new NotImplementedException();
+            var filter = filterBuilder.Eq(i => i.Id, brand.Id);
+            await brandsCollection.ReplaceOneAsync(filter,brand);
+            return brand;
         }
 
-        public Task<Brand> Delete(Brand brand)
+        public async Task Delete(Guid BrandId)
         {
-            throw new NotImplementedException();
+            var filter = filterBuilder.Eq(i => i.Id, BrandId);
+            await brandsCollection.DeleteOneAsync(filter);
+        }
+
+        public async Task<Brand> GetBrandByID(Guid BrandId)
+        {
+            var filter = filterBuilder.Eq(i => i.Id, BrandId);
+            return await brandsCollection.Find(filter).SingleOrDefaultAsync();
         }
 
         public async Task<bool> BrandNameExist(string name)
         {
             var filter = filterBuilder.Eq(i => i.Name, name);
             return await brandsCollection.Find(filter).CountDocumentsAsync() > 0 ? true : false;
+        }
+
+        public async Task<bool> CheckBrandNameWithId(string name,Guid id)
+        {
+            var filter = filterBuilder.Where(b => b.Name == name && b.Id != id);
+            return await brandsCollection.Find(filter).CountDocumentsAsync() > 0 ? true : false;
+        }
+
+        public async Task<List<Brand>> GetAllBrands()
+        {
+            return await brandsCollection.Find(new BsonDocument()).ToListAsync();
         }
     }
 }
