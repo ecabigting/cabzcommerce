@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using cabzcommerce.cshared.Models;
 
 namespace cabzcommerce.cshared.DTOs.User
 {
@@ -15,7 +16,7 @@ namespace cabzcommerce.cshared.DTOs.User
         [Required]
         public string PhoneNumber { get; set; }
         [Required]
-        public List<string> UserType { get; set; }   
+        public UserType UserType { get; set; }   
         public Access UserAccess{get;set;}
     }
 }

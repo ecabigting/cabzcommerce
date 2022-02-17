@@ -59,6 +59,7 @@ builder.Services.AddSingleton(apiSettings);
 // Inject repos
 //
 builder.Services.AddSingleton<IUserRepo, UserRepo>();
+builder.Services.AddSingleton<IBrandRepo,BrandRepo>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -15,7 +15,7 @@ namespace cabzcommerce.cshared.Models
         [Required]
         public string PhoneNumber { get; set; }
         [Required]
-        public List<string> UserType { get; set; }   
+        public UserType UserType { get; set; }   
         [Required]
         public string ImgUrl {get;set;}
         [Required]
@@ -29,5 +29,12 @@ namespace cabzcommerce.cshared.Models
         public DateTimeOffset TokenExp { get; set; }
         public DateTimeOffset RefreshTokenExp { get; set; }
         public Guid UserId {get;set;}
+    }
+
+    public enum UserType 
+    {
+        User=1,
+        Admin=2
+
     }
 }
