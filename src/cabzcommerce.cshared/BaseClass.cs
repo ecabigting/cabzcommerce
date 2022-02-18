@@ -1,9 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace cabzcommerce.cshared
 {
-    public class BaseClass
+    public abstract class BaseClass
     {
         [Required]
         public Guid Id { get; set; }

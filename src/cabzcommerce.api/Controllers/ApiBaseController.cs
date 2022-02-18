@@ -14,7 +14,7 @@ namespace cabzcommerce.api.Controllers
             return String.IsNullOrEmpty(token == null ? "" : token.Split(' ').Length > 1 ? token.Split(' ')[1] : "" );
         }
 
-        public async Task<ActionResult<ApiResponse>> ReturnInvalidBearerTokenResponse()
+        public ActionResult<ApiResponse> ReturnInvalidBearerTokenResponse()
         {
             return BadRequest(new ApiResponse{
                     Data = null,
