@@ -14,7 +14,7 @@ namespace cabzcommerce.api.Controllers
             return String.IsNullOrEmpty(token == null ? "" : token.Split(' ').Length > 1 ? token.Split(' ')[1] : "" );
         }
 
-        public ActionResult<ApiResponse> ReturnInvalidBearerTokenResponse()
+        protected ActionResult<ApiResponse> ReturnInvalidBearerTokenResponse()
         {
             return BadRequest(new ApiResponse{
                     Data = null,
@@ -24,7 +24,7 @@ namespace cabzcommerce.api.Controllers
                 });
         }
 
-        public async Task<Guid> GetTokenUserID(IUserRepo repo, string Token)
+        protected async Task<Guid> GetTokenUserID(IUserRepo repo, string Token)
         {
             UserAccessToken uat = await repo.GetUserAccessByCurrentToken(Token);
             return uat.UserId;
