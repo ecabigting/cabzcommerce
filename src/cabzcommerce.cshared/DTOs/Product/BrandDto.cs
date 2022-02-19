@@ -6,5 +6,6 @@ namespace cabzcommerce.cshared.DTOs.Product
     {
         public string Name { get; set; }
         public string Desc { get; set; }
+        public bool Enabled {get;set;}
     }
 }

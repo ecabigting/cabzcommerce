@@ -106,15 +106,11 @@ namespace cabzcommerce.api.Controllers
                 //
                 // fill out server side data
                 Brand NewBrand = new Brand{
-                    CreatedBy = UAT.UserId,
-                    CreatedDateTime = DateTimeOffset.Now,
-                    IsEnabled = true,
-                    UpdatedBy = UAT.UserId,
-                    IsEnabledBy = UAT.UserId,
-                    UpdatedDateTime = DateTimeOffset.Now,
                     Name = brand.Name,
                     Description = brand.Desc
                 };
+
+                NewBrand.SetAuditFields(UAT.UserId,true);
 
                 //
                 // add the new brand and return
@@ -164,11 +160,9 @@ namespace cabzcommerce.api.Controllers
 
                 //
                 // fill out server side data
-                ExistingBrand.UpdatedBy = UAT.UserId;
-                ExistingBrand.IsEnabledBy = UAT.UserId;
-                ExistingBrand.UpdatedDateTime = DateTimeOffset.Now;
                 ExistingBrand.Name = brand.Name;
                 ExistingBrand.Description = brand.Desc;
+                ExistingBrand.UpdateAuditFields(UAT.UserId,brand.Enabled);
                 
                 //
                 // add the new brand and return

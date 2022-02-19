@@ -14,6 +14,22 @@ namespace cabzcommerce.cshared
         public bool IsEnabled {get;set;}
         [Required]
         public Guid IsEnabledBy { get; set; }
+        public virtual void UpdateAuditFields(Guid id,bool enabled)
+        {
+            this.UpdatedBy = id;
+            this.UpdatedDateTime = DateTimeOffset.Now;
+            this.IsEnabled = enabled;
+            this.IsEnabledBy = id;
+        }
 
+        public virtual void SetAuditFields(Guid id,bool enabled)
+        {
+            this.CreatedBy = id;
+            this.CreatedDateTime = DateTimeOffset.Now;
+            this.IsEnabled = enabled;
+            this.IsEnabledBy = id;
+            this.UpdatedBy = id;
+            this.UpdatedDateTime = DateTimeOffset.Now;
+        }
     }
 }
