@@ -29,11 +29,12 @@ namespace cabzcommerce.api.Repositories
             return brand;
         }
 
-        public async Task Delete(Guid BrandId)
-        {
-            var filter = filterBuilder.Eq(i => i.Id, BrandId);
-            await brandsCollection.DeleteOneAsync(filter);
-        }
+        // WE DO NOT DELETE BRANDS
+        // public async Task Delete(Guid BrandId)
+        // {
+        //     var filter = filterBuilder.Eq(i => i.Id, BrandId);
+        //     await brandsCollection.DeleteOneAsync(filter);
+        // }
 
         public async Task<Brand> GetBrandByID(Guid BrandId)
         {
