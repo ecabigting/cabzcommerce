@@ -19,7 +19,7 @@ namespace cabzcommerce.api.Middlewares
             }
             catch (Exception ex)
             {
-                
+                Console.WriteLine(ex.Message);
             }
         }
 

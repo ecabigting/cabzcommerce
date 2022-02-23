@@ -77,10 +77,9 @@ namespace cabzcommerce.api.Repositories
                 LastName = _user.LastName,
                 PhoneNumber = _user.PhoneNumber,
                 UserType = _user.UserType,
-                CreatedDateTime = DateTimeOffset.UtcNow,
-                UpdatedDateTime = DateTimeOffset.UtcNow,
                 Password = BCryptNet.HashPassword(_user.Password),
             };
+            NewUser.SetAuditFields(Guid.Empty,true);
             await usersCollection.InsertOneAsync(NewUser);
             return new Profile {
                 DateOfBirth = NewUser.DateOfBirth,
@@ -102,7 +101,7 @@ namespace cabzcommerce.api.Repositories
         public async Task<User> GetUserByEmail(string Email)
         {
             var filter = filterBuilder.Eq(i => i.Email, Email);
-            return await usersCollection.Find(filter).SingleOrDefaultAsync();
+            return await usersCollection.Find(filter).FirstOrDefaultAsync();
         }
 
         public async Task<UserAccessToken> RefreshToken(Guid RefToken, string UserToken)

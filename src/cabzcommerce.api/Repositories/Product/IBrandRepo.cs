@@ -6,7 +6,6 @@ namespace cabzcommerce.api.Repositories
     {
         Task<Brand> Add(Brand brand);
         Task<Brand> Update(Brand brand);
-        Task Delete(Guid BrandId);
         Task<bool> BrandNameExist(string name);
         Task<Brand> GetBrandByID(Guid BrandId);
         Task<bool> CheckBrandNameWithId(string name,Guid id);

@@ -1,12 +1,6 @@
 
 using cabzcommerce.api.Repositories;
-using cabzcommerce.cshared.DTOs;
-using cabzcommerce.cshared.DTOs.User;
-using cabzcommerce.cshared.Models;
-using BCryptNet = BCrypt.Net.BCrypt;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace cabzcommerce.api.Controllers 
 {
