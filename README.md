@@ -10,3 +10,5 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
 
 A full stack e-commerce
+
+Setup the API read [here](/documentation/api/setup.md).
