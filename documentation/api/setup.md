@@ -33,7 +33,7 @@ In the `DBSettings` settings you will see something like below. This section is 
     "DbName":"cabzcommercedb"
   }
 ```
-You might notice from the `DBSettings` class that there is another property called `Password`. For security purposes it is not part of the `appsettings,json`.
+You might notice from the `DBSettings` class that there is another property called `Password`. For security purposes it is not part of the `appsettings.json`.
 
 To setup your database password to be use by the api. You need to set it as an environmental variable in your local machine or set it as a user secret. 
 
@@ -71,4 +71,10 @@ In the `ApiSettings` settings you will see something like below. This section is
 
 ### **Swagger**
 
-OpenAPI standard is setup with the api. After setup run the app and open `https://<url>:<port>/swagger` to see the Swagger Api documentation
+OpenAPI standard is setup with the api. After completing the setup run the following commands inside the `src/cabzcommerce.api` folder:
+
+```bash
+dotnet run 
+```
+
+Open a the url `https://<url>:<port>/swagger` to see the Swagger Api documentation in your browser

@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace cabzcommerce.api.Controllers
 {
 
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     [ApiController]
     [Route("[controller]")]
     public class BrandController : ApiBaseController 
@@ -82,6 +81,7 @@ namespace cabzcommerce.api.Controllers
             }
         }
         
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<ApiResponse>> Add([FromHeader]string Authorization,BrandDto brand)
         {
@@ -132,6 +132,7 @@ namespace cabzcommerce.api.Controllers
             }
         }
         
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpPut("{Id}")]
         public async Task<ActionResult<ApiResponse>> Update([FromHeader]string Authorization,BrandDto brand,Guid Id)
         {
