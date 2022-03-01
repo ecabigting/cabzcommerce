@@ -11,4 +11,4 @@
 
 A full stack e-commerce
 
-Setup the API read [here](/documentation/api/setup.md).
+To Setup the API read [here](/documentation/api/setup.md).

@@ -1,7 +1,6 @@
 # cabzcommerce api
 
 ## Setup
----
 
 Pre-req
 
@@ -13,7 +12,6 @@ Pre-req
 
 
 ## Configure DBSettings and ApiSettings
----
 
 ### **DBSettings**
 
@@ -49,7 +47,7 @@ Initialize dotnet Secret Manager
 dotnet user-secrets init
 ```
 
-Set dotnet Secret password 
+Set dotnet Secret for `Password` 
 
 `NOTE: DO NOT USE '@' as part of any value for MongoDB connection string. It is a reserved character`
 ```bash
@@ -60,14 +58,32 @@ dotnet user-secrets set DBSettings:Password <value>
 
 Open `appsettings.json` inside `src/cabzcommerce.api/`
 
-In the `ApiSettings` settings you will see something like below. This section is use to define the _Token Expiration_ and _Refresh Token expiration_ `ApiSettings` class under `src/cabzcommerce.api/Helpers/ApiSettings.cs`. It is instantiated in `src/cabzcommerce.api/Program.cs` line:24
+In the `ApiSettings` settings you will see something like below. This section is use to define the api settings used by the `ApiSettings` class under `src/cabzcommerce.api/Helpers/ApiSettings.cs`. It is instantiated in `src/cabzcommerce.api/Program.cs` line:24
 
 ```json
   "ApiSettings": {
-    "TokenExp":1800,
-    "RefreshTokenExp":3600
+    "TokenExp":1800, // the life time of the token in seconds
+    "RefreshTokenExp":3600, // the life time of the expiration token in seconds
+    "Issuer":"http://localhost:5032", // issuer of token
+    "Audience":"http://localhost:5032" // audience of token
   }
 ```
+
+There are two more settings in the `ApiSettings` class that is not mentioned in the `appsettings.json` file, this is because you need to add them either in as environment variable or as user secret. The following properties are the `HashKey` which is used by the password hashing algorithm, and the `JWTKey` which is use by the JWTBearer token validation parameters as a signing key.
+
+Set dotnet Secret for `HashKey` 
+
+```bash
+dotnet user-secrets set ApiSettings:HashKey <value>
+```
+
+Set dotnet Secret for `JWTKey` 
+
+```bash
+dotnet user-secrets set ApiSettings:JWTKey <value>
+```
+
+
 
 ### **Swagger**
 

@@ -36,16 +36,16 @@ namespace cabzcommerce.api.Repositories
                     new Claim(ClaimTypes.Email, _user.Email),
                     new Claim(ClaimTypes.GivenName, _user.FirstName),
                     new Claim(ClaimTypes.Surname,_user.LastName),
-                    new Claim(ClaimTypes.Role,_user.ToString()),
+                    new Claim(ClaimTypes.Role,_user.UserType.ToString()),
                 };
-                Console.WriteLine(aSettings.HashKey);
                 var token = new JwtSecurityToken
                 (
+                    claims: claims,
                     issuer: aSettings.Issuer,
                     audience:aSettings.Audience,
                     expires: DateTime.Now.AddMinutes(aSettings.TokenExp),
                     signingCredentials: new SigningCredentials(
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(aSettings.HashKey)),
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(aSettings.JWTKey)),
                         SecurityAlgorithms.HmacSha256
                     )
                 ); 
