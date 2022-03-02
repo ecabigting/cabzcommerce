@@ -12,7 +12,7 @@ The `API` is is a `RESTful` API build using the with Repository pattern, MVC and
 
 > NOTE: THE API Communicates via HTTP and JSON format.
 
- The **Brand** controller has its own repository. This is injected on _startup_. The actual code can be found at **line:64** from [here](/src/cabzcommerce.api/Program.cs). All endpoints of the controller are using async/await endpoints. Which are drilled down to the repository performing the request to the database.
+ The **Brand** controller has its own repository. This is injected on _startup_. The actual code can be found  from [here](https://github.com/ecabigting/cabzcommerce/blob/1dd8b6d4461b2e57f4eab0f810f557cb9d128e54/src/cabzcommerce.api/Program.cs#L64). All endpoints of the controller are using async/await endpoints. Which are drilled down to the repository performing the request to the database.
 
 > Read more about [Brands](/documentation/api/brands.md).
 
