@@ -8,28 +8,46 @@ As part of the role managements. Only users with the **UserType** `Admin` can Cr
 
 ## Endpoints
 
-Any user can search brand by ID using the following end point:
+### Get brand by ID
+Any user can search brand by ID with **Get** request using the following end point:
 ```
 brand/<brand id>
 ```
 
-Any user can get all brands by using the following endpoint:
+### Get all brands
+Any user can get all brands with **Get** request by using the following endpoint:
 ```
 brand/
 ```
-`NOTE: it will list all brands`
+`NOTE: it will return a list of available all brands`
 
-`TODO: Do Pagination with getallbrands`
+`TODO: Pagination with Getallbrands`
 
+### Add a new brand 
 Only users with **UserType** `Admin` can create a brand. Endpoint:
 ```
 brand/
 ```
-Users must send a *Post* `json` request with the body [BrandDto](../../src/cabzcommerce.cshared/DTOs/Product/BrandDto.cs) model.
+- Adding new Brand rules:
+    - Brand name must be unique
+    - Must Have a `Name`
+    - Must Have a `Description`
+    - Must either be **enabled** or **disabled** on creation
 
+Users must send a **Post** `json` request with the body [BrandDto](../../src/cabzcommerce.cshared/DTOs/Product/BrandDto.cs) model.
+
+### Updating an existing Brand
 Only Users with **UserType** `Admin` can update a brand.
 Endpoint:
 ```
 brand/<brand id>
 ```
-Users must do a *Put* `json` request with the body [BrandDto](../../src/cabzcommerce.cshared/DTOs/Product/BrandDto.cs) model.
+
+- Updating existhing Brand rules:
+    - Brand name must be unique
+    - Must Have a `Name`
+    - Must Have a `Description`
+    - Must either be **enabled** or **disabled** on creation
+
+Users must do a **Put** `json` request with the body [BrandDto](../../src/cabzcommerce.cshared/DTOs/Product/BrandDto.cs) model.
+
