@@ -16,3 +16,7 @@ The `API` is is a `RESTful` API build using the with Repository pattern, MVC and
 
 > Read more about [Brands](/documentation/api/brands.md).
 
+ The **Product** controller has its own repository. This is injected on _startup_. All endpoints of the controller are using async/await endpoints. Which are drilled down to the repository performing the request to the database.
+
+> Read more about [Product](/documentation/api/products.md).
+
