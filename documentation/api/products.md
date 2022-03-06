@@ -29,9 +29,14 @@ Only users with **UserType** `Admin` can create a product. Endpoint:
 product/
 ```
 - Adding new product rules:
-    - product name must be unique
-    - Must Have a `Name`
-    - Must Have a `Description`
+    - Must have a `Name`
+        - Name must be unique
+    - Must have a `Description`
+    - Must have a `Price`
+    - Must have a `ProductImgeDesktopUrl`
+    - Must have a `ProductImgMobileUrl`
+    - Must atleast have one valid `ProductType`
+    - Must enable or disabled `IsEnabled` property
     - Must either be **enabled** or **disabled** on creation
 
 Users must send a **Post** `json` request with the body [productDto](../../src/cabzcommerce.cshared/DTOs/Product/productDto.cs) model.
