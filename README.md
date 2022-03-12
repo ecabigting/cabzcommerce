@@ -11,6 +11,8 @@
 
 A full stack e-commerce.
 
+Currently under development. Check Main branch for commit progress.
+
 ## Where to start:
 
  - Read the Api [Documentation](/documentation/api/api.md) to get started.
