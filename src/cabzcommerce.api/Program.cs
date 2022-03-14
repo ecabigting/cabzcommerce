@@ -37,9 +37,11 @@ builder.Services
         ValidateIssuerSigningKey = true,
         ValidIssuer = apiSettings.Issuer,
         ValidAudience = apiSettings.Audience,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(apiSettings.HashKey))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(apiSettings.JWTKey))
     };
 });
+
+builder.Services.AddAuthorization();
 
 //
 // setting up the connection string

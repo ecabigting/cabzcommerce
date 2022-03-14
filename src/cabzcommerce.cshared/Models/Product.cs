@@ -17,7 +17,7 @@ namespace cabzcommerce.cshared.Models
         [Required]
         public int DiscountPercentage { get; set; }
         [Required]
-        public List<string> Type { get; set; }
+        public List<ProductType> Type { get; set; }
         [Required]
         public Guid BrandID { get; set; }
         [Required]
@@ -38,6 +38,14 @@ namespace cabzcommerce.cshared.Models
         public string DescriptionText { get; set; }
         [Required]
         public Guid ProductId { get;set; }
+    }
+
+    public class ProductType : BaseClass 
+    {
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public string Description { get; set; }
     }
 
     public class ProductAddOns : BaseClass

@@ -9,4 +9,10 @@
 ![blazor](https://img.shields.io/badge/Blazor-512BD4?style=for-the-badge&logo=Blazor&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
 
-A full stack e-commerce
+A full stack e-commerce.
+
+Currently under development. Check Main branch for commit progress.
+
+## Where to start:
+
+ - Read the Api [Documentation](/documentation/api/api.md) to get started.
